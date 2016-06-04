@@ -1,0 +1,15 @@
+<layer>
+  <name>boundaryline</name>
+  <id>LayerInfoImpl-2a93b572:143a3f1a731:-7fff</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl-78ff667e:12476299803:-7ffc</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-2a93b572:143a3f1a731:-8000</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4"
+	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>okaysoft</display-name>
+	<welcome-file-list>
+
+		<welcome-file>index.html</welcome-file>
+
+	</welcome-file-list>
+
+	<context-param>
+		<param-name>serviceStrategy</param-name>
+		<!-- Meaning of the different values : PARTIAL-BUFFER2 - Partially buffers 
+			the first xKb to disk. Once that has buffered, the the result is streamed 
+			to the user. This will allow for most errors to be caught early. BUFFER - 
+			stores the entire response in memory first, before sending it off to the 
+			user (may run out of memory) SPEED - outputs directly to the response (and 
+			cannot recover in the case of an error) FILE - outputs to the local filesystem 
+			first, before sending it off to the user -->
+		<param-value>PARTIAL-BUFFER2</param-value>
+	</context-param>
+
+	<!-- If true, enable versioning datastore as well -->
+	<context-param>
+		<param-name>enableVersioning</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
+	<context-param>
+		<!-- see comments on the PARTIAL-BUFFER strategy -->
+		<!-- this sets the size of the buffer. default is "50" = 50kb -->
+
+		<param-name>PARTIAL_BUFFER_STRATEGY_SIZE</param-name>
+		<param-value>50</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath*:applicationContext.xml
+		     classpath*:applicationContextSecurity.xml</param-value>
+	</context-param>
+
+	<!-- spring -->
+	<!-- <listener> <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class> 
+		</listener> -->
+	<listener>
+		<listener-class>org.okaysoft.core.spring.OkayContextLoaderListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>org.okaysoft.core.spring.UserLoginListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+	</listener>
+
+	
+<filter>
+		<filter-name>FlushSafeFilter</filter-name>
+		<filter-class>org.geoserver.filters.FlushSafeFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>SessionDebugger</filter-name>
+		<filter-class>org.geoserver.filters.SessionDebugFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>Advanced Dispatch Filter</filter-name>
+		<filter-class>org.geoserver.platform.AdvancedDispatchFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>Thread locals cleanup filter</filter-name>
+		<filter-class>org.geoserver.filters.ThreadLocalsCleanupFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>GZIP Compression Filter</filter-name>
+		<filter-class>org.geoserver.filters.GZIPFilter</filter-class>
+		<init-param>
+			<param-name>compressed-types</param-name>
+			<param-value>text/.*,.*xml.*,application/json,application/x-javascript</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>Spring Delegating Filter</filter-name>
+		<filter-class>org.geoserver.filters.SpringDelegatingFilter</filter-class>
+
+	</filter>
+	<filter-mapping>
+		<filter-name>FlushSafeFilter</filter-name>
+		<url-pattern>/gis/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>SessionDebugger</filter-name>
+		<url-pattern>/gis/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>GZIP Compression Filter</filter-name>
+		<url-pattern>/gis/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Advanced Dispatch Filter</filter-name>
+		<url-pattern>/gis/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Spring Delegating Filter</filter-name>
+		<url-pattern>/gis/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Thread locals cleanup filter</filter-name>
+		<url-pattern>/gis/*</url-pattern>
+	</filter-mapping>
+
+
+	<!-- struts2 -->
+	<!-- <filter> <filter-name>struts-cleanup</filter-name> <filter-class>org.apache.struts2.dispatcher.ActionContextCleanUp</filter-class> 
+		</filter> <filter-mapping> <filter-name>struts-cleanup</filter-name> <url-pattern>*.action</url-pattern> 
+		</filter-mapping> <filter-mapping> <filter-name>struts-cleanup</filter-name> 
+		<url-pattern>/struts/*</url-pattern> </filter-mapping> -->
+
+
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>jcaptchaFilter</filter-name>
+		<filter-class>org.okaysoft.core.filter.JCaptchaFilter</filter-class>
+	</filter>
+	<!-- jcaptcha图片生成URL. -->
+	<filter-mapping>
+		<filter-name>jcaptchaFilter</filter-name>
+		<url-pattern>/security/jcaptcha.png</url-pattern>
+	</filter-mapping>
+
+	<!-- jcaptcha登录表单处理URL. 必须放在springSecurityFilter的filter-mapping定义之前 -->
+	<filter-mapping>
+		<filter-name>jcaptchaFilter</filter-name>
+		<url-pattern>/j_spring_security_check</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 必须放在spring security之后，SecurityContextHolder.getContext()不然取不到用户 -->
+	<filter>
+		<filter-name>struts2</filter-name>
+		<filter-class>
+			org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter
+		</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>struts2</filter-name>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>struts2</filter-name>
+		<url-pattern>/struts/*</url-pattern>
+	</filter-mapping>
+
+
+	
+<servlet>
+		<servlet-name>dispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>/gis/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- dwr -->
+	<servlet>
+		<servlet-name>dwr-invoker</servlet-name>
+		<servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>dwr-invoker</servlet-name>
+		<url-pattern>/dwr/*</url-pattern>
+	</servlet-mapping>
+
+</web-app>

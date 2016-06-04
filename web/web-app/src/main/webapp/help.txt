@@ -1,0 +1,4 @@
+﻿http://localhost:8189/okaygis/fconline/wms?service=WMS&version=1.1.0&request=GetMap&layers=fconline:boundaryline&styles=&bbox=113.838500162129,22.863421790897,113.934327536893,22.9824266018905&width=412&height=512&srs=EPSG:4326&format=application/openlayers
+
+
+http://localhost:8080/okaysoft/gis/fconline/wms

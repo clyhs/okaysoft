@@ -1,0 +1,40 @@
+<featureType>
+  <id>FeatureTypeInfoImpl-2a93b572:143a3f1a731:-8000</id>
+  <name>boundaryline</name>
+  <nativeName>boundaryline</nativeName>
+  <namespace>
+    <id>NamespaceInfoImpl-3fff27bb:143a3776f93:-7fff</id>
+  </namespace>
+  <title>boundaryline</title>
+  <keywords>
+    <string>boundaryline</string>
+    <string>features</string>
+  </keywords>
+  <srs>EPSG:4326</srs>
+  <nativeBoundingBox>
+    <minx>113.838500162129</minx>
+    <maxx>113.934327536893</maxx>
+    <miny>22.863421790897</miny>
+    <maxy>22.9824266018905</maxy>
+  </nativeBoundingBox>
+  <latLonBoundingBox>
+    <minx>113.838500162129</minx>
+    <maxx>113.934327536893</maxx>
+    <miny>22.863421790897</miny>
+    <maxy>22.9824266018905</maxy>
+    <crs>GEOGCS[&quot;WGS84(DD)&quot;, &#xd;
+  DATUM[&quot;WGS84&quot;, &#xd;
+    SPHEROID[&quot;WGS84&quot;, 6378137.0, 298.257223563]], &#xd;
+  PRIMEM[&quot;Greenwich&quot;, 0.0], &#xd;
+  UNIT[&quot;degree&quot;, 0.017453292519943295], &#xd;
+  AXIS[&quot;Geodetic longitude&quot;, EAST], &#xd;
+  AXIS[&quot;Geodetic latitude&quot;, NORTH]]</crs>
+  </latLonBoundingBox>
+  <projectionPolicy>FORCE_DECLARED</projectionPolicy>
+  <enabled>true</enabled>
+  <store class="dataStore">
+    <id>DataStoreInfoImpl-3fff27bb:143a3776f93:-7ffe</id>
+  </store>
+  <maxFeatures>0</maxFeatures>
+  <numDecimals>0</numDecimals>
+</featureType>
